@@ -1,0 +1,101 @@
+
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotasi Data - Zoom 100%</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #1a1a1a; }
+        
+        /* Bar Status (Tinggi 10% dari layar) */
+        #status-bar { 
+            height: 10vh; 
+            background: #2c3e50; 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+
+        /* Container Iframe (Tinggi 100% dari layar) */
+        #frame-container {
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            background: white;
+            position: relative;
+        }
+
+        /* Mengatur Zoom Konten ke 90% */
+        iframe { 
+            width: 100%; /* Kompensasi agar saat di-scale 1.0 tetap penuh */
+            height: 100%; 
+            border: none;
+            transform: scale(1.0);
+            transform-origin: 0 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        #progress-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: #27ae60;
+            width: 0%;
+        }
+    </style>
+</head>
+<body>
+
+<div id="status-bar">
+    <div style="font-size: 20px; font-weight: bold;">MONITORING - HALAMAN <span id="page-num">1</span></div>
+    <div id="progress-bar"></div>
+</div>
+
+<div id="frame-container">
+    <iframe id="display-frame" src="about:blank"></iframe>
+</div>
+
+<script>
+    const urls = [
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=0&single=true",
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=639726083&single=true",
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=175662834&single=true",
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=1727077156&single=true",
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=665317593&single=true",
+        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=1927959927&single=true"
+    ];
+
+    let currentIndex = 0;
+    const frame = document.getElementById('display-frame');
+    const pageNum = document.getElementById('page-num');
+    const progressBar = document.getElementById('progress-bar');
+
+    function rotate() {
+        frame.src = urls[currentIndex];
+        pageNum.innerText = currentIndex + 1;
+        
+        progressBar.style.transition = 'none';
+        progressBar.style.width = '0%';
+        setTimeout(() => {
+            progressBar.style.transition = 'width 30s linear';
+            progressBar.style.width = '100%';
+        }, 100);
+
+        currentIndex = (currentIndex + 1) % urls.length;
+    }
+
+    rotate();
+    setInterval(rotate, 30000);
+</script>
+
+</body>
+</html>
