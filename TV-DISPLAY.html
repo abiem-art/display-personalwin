@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Rotator - Hikvision Display</title>
+    <style>
+        /* Menghilangkan scrollbar dan memastikan tampilan full screen */
+        body, html { 
+            margin: 0; 
+            padding: 0; 
+            height: 100%; 
+            width: 100%; 
+            overflow: hidden; 
+            background-color: white; 
+        }
+        /* Iframe dibuat menumpuk, hanya yang 'active' yang muncul */
+        iframe { 
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+            opacity: 0;
+            transition: opacity 1s ease-in-out; /* Efek transisi halus */
+            visibility: hidden;
+        }
+        iframe.active { 
+            opacity: 1;
+            visibility: visible;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe id="page1" class="active" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=0&single=true&rm=minimal&chrome=false&headers=false&widget=false"></iframe>
+
+    <iframe id="page2" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=639726083&single=true&rm=minimal&chrome=false&headers=false&widget=false"></iframe>
+
+    <iframe id="page3" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=175662834&single=true&rm=minimal&chrome=false&headers=false&widget=false"></iframe>
+
+    <iframe id="page4" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=1727077156&single=true&rm=minimal&chrome=false&headers=false&widget=false"></iframe>
+
+    <iframe id="page5" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=665317593&single=true&rm=minimal&chrome=false&headers=false&widget=false"></iframe>
+
+    <iframe id="page6" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=1927959927&single=true&rm=minimal&chrome=false&headers=false&widget=false"></iframe>
+
+        let current = 1;
+        const totalPages = 6;
+        const duration = 10000; // Durasi 10 detik (dalam milidetik)
+
+        setInterval(() => {
+            // Targetkan halaman saat ini dan halaman berikutnya
+            const oldPage = document.getElementById('page' + current);
+            current = (current % totalPages) + 1;
+            const nextPage = document.getElementById('page' + current);
+            
+            // Lakukan perpindahan class active
+            oldPage.classList.remove('active');
+            nextPage.classList.add('active');
+            
+            // Refresh halaman yang lama di latar belakang agar data tetap update saat muncul lagi
+            setTimeout(() => {
+                oldPage.src = oldPage.src;
+            }, 2000); 
+            
+        }, duration);
+    </script>
+</body>
+</html>
