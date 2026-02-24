@@ -1,42 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Dashboard - Auto Rotate</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; background-color: #1a1a1a; font-family: sans-serif; }
+        
+        #status-bar { 
+            height: 45px; 
+            background: #2c3e50; 
+            color: white; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 20px; 
+            font-size: 16px; 
+            position: relative; 
+            z-index: 100; /* Pastikan selalu di depan */
+        }
+
+        #frame-container { 
+            width: 100%; 
+            height: calc(100vh - 45px); 
+            overflow: hidden; 
+            position: relative; 
+            background: white; 
+        }
+
+        /* ZOOM 90% SETTINGS */
+        iframe { 
+            width: 111.11%; 
+            height: 111.11%; 
+            border: none; 
+            transform: scale(0.9); 
+            transform-origin: 0 0; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+        }
+
+        #progress-bar { 
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            height: 4px; 
+            background: #27ae60; 
+            width: 0%; 
+        }
+    </style>
+</head>
+<body>
+
+<div id="status-bar">
+    <div>📊 DATA MONITORING | Halaman: <span id="page-num">1</span>/6</div>
+    <div id="progress-bar"></div>
+</div>
+
+<div id="frame-container"></div>
+
 <script>
     const baseUrls = [
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=0&single=true",
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=639726083&single=true",
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=175662834&single=true",
         "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=1727077156&single=true",
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=665317593&single=true",
-        "https://docs.google.com/spreadsheets/d/e/2PACX-1vTEVx5HcjpuYcqS0T_bK7-tl9RbaFanW_aqL1pjOxA0KpiluTTkuo_yqgHI_6jM8x33S2M1dR81iCsM/pubhtml?gid=1927959927&single=true"
-    ];
-
-    let currentIndex = 0;
-    const container = document.getElementById('frame-container');
-    const pageNum = document.getElementById('page-num');
-
-    function rotate() {
-        // Hapus iframe lama sepenuhnya untuk memaksa GPU NVIDIA merender ulang
-        container.innerHTML = ""; 
-        
-        const newIframe = document.createElement('iframe');
-        const cacheBuster = "&cb=" + new Date().getTime();
-        
-        newIframe.src = baseUrls[currentIndex] + cacheBuster;
-        newIframe.id = "display-frame";
-        
-        container.appendChild(newIframe);
-        
-        pageNum.innerText = currentIndex + 1;
-        currentIndex = (currentIndex + 1) % baseUrls.length;
-        
-        // Reset Progress Bar
-        const progressBar = document.getElementById('progress-bar');
-        progressBar.style.transition = 'none';
-        progressBar.style.width = '0%';
-        setTimeout(() => {
-            progressBar.style.transition = 'width 30s linear';
-            progressBar.style.width = '100%';
-        }, 100);
-    }
-
-    rotate();
-    setInterval(rotate, 30000);
-</script>
+        "
